@@ -10,6 +10,23 @@ public class Projectile implements Constants {
 	double dx, dy;
 	int damage;
 	
+	public Projectile(Pane pane, double x, double y, int direction, int speed, int damage){
+      circle = new Circle(PROJECTILE_RADIUS, PROJECTILE_COLOR);
+      circle.setTranslateX(x);
+      circle.setTranslateY(y);
+      pane.getChildren().add(circle);
+      if(direction < 3)
+        dy = -speed;
+      else if(direction > 5)
+        dy = speed;
+      if(direction % 3 == 0)
+        dx = -speed;
+      else if(direction % 3 == 2)
+        dx = speed;
+	  target = null;
+	  this.damage = damage;
+	}
+	
 	public Projectile(Pane pane, Minion target, double x, double y, int damage){
 		circle = new Circle(PROJECTILE_RADIUS, PROJECTILE_COLOR);
 		circle.setTranslateX(x);
@@ -105,10 +122,14 @@ public class Projectile implements Constants {
 		if(circle.isVisible()){
 			circle.setTranslateX(getX() + dx);
 			circle.setTranslateY(getY() + dy);
-			if(reachedTarget()){
-				target.hit(damage);
-				die();
+			if(target != null){
+    			if(reachedTarget()){
+    				target.hit(damage);
+    				die();
+    			}
 			}
+			if(getX() < 0 || getX() > WIDTH || getY() < 0 || getY() > HEIGHT)
+			  die();
 		}
 	}
 }

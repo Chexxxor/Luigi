@@ -7,4 +7,7 @@ public interface Constants {
 	int GRID_COLS = WIDTH / BLOCK_SIZE;
 	int GRID_ROWS = HEIGHT / BLOCK_SIZE;
 	int BLOCK_PERCENTAGE = 1;
+	int PLAYER_SIZE = 10;
+	int STEP_SIZE = 10;
+	int SHOT_SPEED = 20;
 }

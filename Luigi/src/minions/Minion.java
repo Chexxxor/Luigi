@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 
 public class Minion implements Constants {
 	private static ArrayList<Minion> minions;
-	Circle circle;
+	protected Circle circle;
 	HealthBar bar;
 	int respawnCount;
 	int reloadCount;
