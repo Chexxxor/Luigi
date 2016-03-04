@@ -93,9 +93,12 @@ public class Projectile implements Constants {
 		return false;
 	}
 	
+	public boolean isDead(){
+		return !circle.isVisible();
+	}
+	
 	public void die(){
 		circle.setVisible(false);
-		//manager.remove(this);
 	}
 	
 	public void tick(){
