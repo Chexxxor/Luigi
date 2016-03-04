@@ -20,12 +20,12 @@ public class JavaFx3D extends Application {
 	final Xform cameraXform3 = new Xform();
 	final double cameraDistance = 450;
 
-
 	private void buildScene(){
 		System.out.println("Building Scene...");
 		root.getChildren().add(world);
 	}
 	private void buildCamera() {
+		System.out.println("Building Camera...");
 		root.getChildren().add(cameraXform);
 		cameraXform.getChildren().add(cameraXform2);
 		cameraXform2.getChildren().add(cameraXform3);
@@ -39,7 +39,7 @@ public class JavaFx3D extends Application {
 		cameraXform.rx.setAngle(40);
 	}	
     private void buildAxes() {
-        System.out.println("buildAxes()");
+        System.out.println("Building Axis...");
         final PhongMaterial redMaterial = new PhongMaterial();
         redMaterial.setDiffuseColor(Color.DARKRED);
         redMaterial.setSpecularColor(Color.RED);
@@ -63,7 +63,8 @@ public class JavaFx3D extends Application {
         axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
         world.getChildren().addAll(axisGroup);
     }
-	@Override
+
+    @Override
 	public void start(Stage stage) throws Exception {
 		System.out.println("Starting...");
 		buildScene();

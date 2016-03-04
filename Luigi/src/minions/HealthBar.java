@@ -14,8 +14,8 @@ public class HealthBar implements Constants {
 	Rectangle max;
 
 	public HealthBar(Pane pane, Minion minion) {
-		x = minion.getX() - HEALTH_WIDTH / 2;
-		y = minion.getY() - MINION_CASTER_SIZE;
+		x = (int)minion.getX() - HEALTH_WIDTH / 2;
+		y = (int)minion.getY() - MINION_CASTER_SIZE;
 		maxHealth = MINION_CASTER_HEALTH;
 		currentHealth = maxHealth;
 		max = new Rectangle(x + HEALTH_WIDTH, y, 0, HEALTH_HEIGHT);

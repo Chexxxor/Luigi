@@ -20,8 +20,10 @@ public class LastHitTrainer extends Application implements Constants {
 	public void start(Stage primary){
 		Pane pane = new Pane();
 		Scene scene = new Scene(pane, WIDTH, HEIGHT);
+		ProjectileManager projectileMan = new ProjectileManager();
 		scene.setFill(Color.DARKBLUE);
 		minions = new ArrayList<>();
+		Minion.setArrayList(minions);
 		score = 0;
 		
 		for(int i = 0; i < 3; i++){
@@ -49,10 +51,10 @@ public class LastHitTrainer extends Application implements Constants {
 		});
 
 		EventHandler<ActionEvent> eHandler = e -> {
-			minions.get((int)(Math.random() * minions.size())).hit(MINION_DAMAGE);
 			for(Minion minion : minions){
-				minion.tick();
+				minion.tick(pane);
 			}
+			projectileMan.tick();
 		};
 		
 	    Timeline animation = new Timeline(new KeyFrame(Duration.millis(100), eHandler));
