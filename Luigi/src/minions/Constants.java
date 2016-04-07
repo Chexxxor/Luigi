@@ -28,6 +28,7 @@ public interface Constants {
 	int PADDING_V = 50;
 	int PADDING_H = 50;
 	
-	int WIDTH = 6 * MINION_CASTER_SIZE + 2 * PADDING_H + PADDING_LEFT + PADDING_RIGHT;
+	//int WIDTH = 6 * MINION_CASTER_SIZE + 2 * PADDING_H + PADDING_LEFT + PADDING_RIGHT;
+	int WIDTH = 800;
 	int HEIGHT = WIDTH;
 }

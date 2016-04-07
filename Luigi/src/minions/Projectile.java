@@ -25,6 +25,7 @@ public class Projectile implements Constants {
         dx = speed;
 	  target = null;
 	  this.damage = damage;
+	  manager.add(this);
 	}
 	
 	public Projectile(Pane pane, Minion target, double x, double y, int damage){
