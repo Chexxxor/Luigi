@@ -37,11 +37,11 @@ public class Combination extends Expression {
 		for(Type t : Type.values()){
 			if(exp.substring(1).contains(t.toString())){
 				type = t;
-				if(t == Combination.Type.PAR_R){
-					exps[0] = exp.substring(0, exp.lastIndexOf(')'));
-					exps[1] = exp.substring(exp.lastIndexOf(')') + 1);
+				/*if(t == Combination.Type.PAR_R){
+					//exps[0] = exp.substring(0, exp.lastIndexOf(')'));
+					//exps[1] = exp.substring(exp.lastIndexOf(')') + 1);
 				}
-				else if(t == Combination.Type.SUBTRACT && exp.charAt(0) == '-')
+				else*/ if(t == Combination.Type.SUBTRACT && exp.charAt(0) == '-')
 					exps = exp.split("([^-]-)", 2);
 				else
 					exps = exp.split(t.getReg(), 2);
@@ -52,7 +52,7 @@ public class Combination extends Expression {
 		right = create(exps[1]);
 		if(type == Type.DEFINITION && left instanceof Variable){
 			((Variable)left).define(right);
-			Variable.variables.add((Variable) left);
+			//Variable.variables.add((Variable) left);
 		}
 	}
 

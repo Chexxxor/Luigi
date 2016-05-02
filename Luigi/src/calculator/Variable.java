@@ -9,10 +9,12 @@ public class Variable extends Expression {
 
 	public Variable(String name) {
 		this.name = name;
+		variables.add(this);
 	}
 	public Variable(String name, Expression e){
 		this.name = name;
 		expression = e;
+		variables.add(this);
 	}
 	
 	public void define(Expression e){
@@ -20,7 +22,7 @@ public class Variable extends Expression {
 	}
 	
 	public String printVar(){
-		return name + " = " + toString() + (toString().equals(evaluate().toString()) ? "" : " = " + evaluate().toString());
+		return name + " = " + toString().substring(1, toString().length()-1) + (toString().equals(evaluate().toString()) ? "" : " = " + evaluate().toString());
 	}
 
 	@Override
@@ -32,8 +34,11 @@ public class Variable extends Expression {
 
 	@Override
 	public String toString() {
-		if(expression != null)
+		if(expression != null){
+			if(expression instanceof Trigonometric || (expression instanceof Value && ((Value)expression).getValue() >= 0))
+				return expression.toString();
 			return "(" + expression.toString() + ")";
+		}
 		return name;
 	}
 }
