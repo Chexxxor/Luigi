@@ -23,7 +23,7 @@ public class Server {
 	private static Thread input = new Input();
 	private static Thread listener = new Listener();
 
-	private static class Input extends Thread{
+	private static class Input extends Thread {
 		@Override
 		public void run(){
 			Scanner input = new Scanner(System.in);
@@ -49,25 +49,25 @@ public class Server {
 		}
 	}
 	
-	private static class Listener extends Thread{
+	private static class Listener extends Thread {
 		@Override
 		public void run(){
 			System.out.println("Server starting...");
 			status = STARTING;
 			try {
 				server = new ServerSocket(PORT);
-			} catch (Exception e1){
-				status = ERROR;
-			}
-			while(serverRunning){
-				if(CLIENT_LIMIT < clients.size()){
+				while(serverRunning){
+					if(CLIENT_LIMIT < clients.size()){
+						try {
+							new Client(server.accept());
+						} catch (Exception e){}
+					}
 					try {
-						new Client(server.accept());
+						wait();
 					} catch (Exception e){}
 				}
-				try {
-					wait();
-				} catch (Exception e){}
+			} catch (Exception e1){
+				status = ERROR;
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public class Server {
 					System.out.println("Client " + id + "> " + command);
 					switch(command){
 					case "close":
-						out.writeUTF("close");
+						out.writeUTF("closed");
 						running = false;
 						close();
 						break;
