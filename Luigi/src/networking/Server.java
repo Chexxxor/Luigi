@@ -15,7 +15,7 @@ public class Server {
 		
 		static Status status = OFFLINE;
 	};
-	private static final int PORT = 1991;
+	private static final int PORT = 1993;
 	private static final int CLIENT_LIMIT = 10;
 	private static boolean serverRunning = true;
 	private static ServerSocket server;
@@ -28,7 +28,7 @@ public class Server {
 		public void run(){
 			Scanner input = new Scanner(System.in);
 			while(serverRunning){
-				String command = input.next();
+				String command = input.nextLine();
 				switch(command){
 				case "exit":
 					for(Client client : clients){
@@ -56,15 +56,23 @@ public class Server {
 			status = STARTING;
 			try {
 				server = new ServerSocket(PORT);
+				System.out.println("Server online...");
+				status = ONLINE;
 				while(serverRunning){
-					if(CLIENT_LIMIT < clients.size()){
+					synchronized (clients) {
+						if(CLIENT_LIMIT > clients.size()){
+							try {
+								System.out.println("Connection attempted...");
+								/*Client c = new Client(server.accept());
+								clients.add(c);
+								c.start();*/
+								new Client(server.accept());
+							} catch (Exception e){}
+						}
 						try {
-							new Client(server.accept());
+							wait();
 						} catch (Exception e){}
 					}
-					try {
-						wait();
-					} catch (Exception e){}
 				}
 			} catch (Exception e1){
 				status = ERROR;
@@ -79,8 +87,10 @@ public class Server {
 
 		Client(Socket s){
 			socket = s;
-			clients.add(this);
-			id = clients.indexOf(this);
+			synchronized (clients) {
+				clients.add(this);
+				id = clients.indexOf(this);
+			}
 			start();
 		}
 
@@ -89,6 +99,7 @@ public class Server {
 			try {
 				DataInputStream in = new DataInputStream(socket.getInputStream());
 				DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+				System.out.println("Client " + id + " connected");
 				while(running){
 					String command = in.readUTF();
 					System.out.println("Client " + id + "> " + command);
@@ -104,8 +115,10 @@ public class Server {
 				}
 			}catch(Exception e){
 			}finally{
-				clients.remove(this);
-				listener.notify();
+				synchronized (clients) {
+					clients.remove(this);
+					listener.notify();
+				}
 			}
 		}
 		
@@ -115,7 +128,6 @@ public class Server {
 	}
 		
 	public static void main(String[] args) throws IOException{
-		System.out.println("Starting");
 		input.start();
 		listener.start();
 	}
