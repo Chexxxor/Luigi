@@ -9,14 +9,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ObjectListener<Obj> extends Listener {
 	ObjectInputStream in;
 	LinkedBlockingQueue<Obj> objects = new LinkedBlockingQueue<>();
-	Sender<Packet> sender = null;
+	ObjectSender<Packet> sender = null;
 
 	public ObjectListener(Socket s) throws IOException {
 		super(s);
 		in = new ObjectInputStream(socket.getInputStream());
 	}
 	
-	public ObjectListener(Socket s, Sender<Packet> sender) throws IOException{
+	public ObjectListener(Socket s, ObjectSender<Packet> sender) throws IOException{
 		this(s);
 		this.sender = sender;
 	}
@@ -43,10 +43,10 @@ public class ObjectListener<Obj> extends Listener {
 				}
 			} catch (ClassNotFoundException e) {
 				if(sender != null)
-					sender.send(new Packet(Packet.Command.BAD_CLASS));
+					sender.post(new Packet(Packet.Command.BAD_CLASS));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				if(sender != null)
+					sender.post(new Packet(Packet.Command.REPEAT));
 			}
 		}
 	}
