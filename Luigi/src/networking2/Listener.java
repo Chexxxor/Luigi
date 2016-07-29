@@ -1,8 +1,7 @@
 package networking2;
 
-//import java.io.InputStream;
+import java.io.IOException;
 import java.net.Socket;
-//import java.util.ArrayList;
 
 public abstract class Listener extends Thread {
 	protected Socket socket;
@@ -10,7 +9,12 @@ public abstract class Listener extends Thread {
 
 	public Listener(Socket s) {
 		socket = s;
-		//in = s.getInputStream();
 	}
 
+	public void close(){
+		running = false;
+		try {
+			socket.close();
+		} catch (IOException e) {}
+	}
 }
