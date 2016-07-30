@@ -18,5 +18,5 @@ public abstract class Cell {
 	}
 	
 	public void divide(){}
-
+	public abstract void remove();
 }

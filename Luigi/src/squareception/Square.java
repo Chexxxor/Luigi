@@ -16,22 +16,23 @@ public class Square extends Cell {
 		rect.setOnMouseClicked(e ->{
 			if(e.getButton().equals(MouseButton.PRIMARY))
 				divide();
-			else if(parent != null && e.getButton().equals(MouseButton.SECONDARY) && parent.getClass().equals(Grid.class))
+			else if(e.getButton().equals(MouseButton.SECONDARY) && parent != null && parent.getClass().equals(Grid.class))
 				((Grid)parent).combine();
 		});
-		
-		/*if(Math.random() > 0.7)
-			this.divide();*/
 	}
 	
 	@Override
 	public void divide(){
 		if(w > 3 && h > 3){
-			pane.getChildren().remove(rect);
+			remove();
 			if(parent != null && parent.getClass().equals(Grid.class))
 				((Grid)parent).grid[id] = new Grid(pane, parent, x, y, w, h, id);
 			else
 				parent = new Grid(pane, parent, x, y, w, h, id);
 		}
+	}
+
+	public void remove(){
+		pane.getChildren().remove(rect);
 	}
 }

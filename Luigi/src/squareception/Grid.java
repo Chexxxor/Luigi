@@ -16,6 +16,13 @@ public class Grid extends Cell {
 	}
 	
 	public void combine(){
+		remove();
 		parent = new Square(pane, parent, x, y, w, h, id);
+	}
+	
+	public void remove(){
+		for(Cell c : grid){
+			c.remove();
+		}
 	}
 }
