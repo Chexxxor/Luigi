@@ -3,9 +3,9 @@ package squareception;
 import javafx.scene.layout.Pane;
 
 public class Grid extends Cell {
-	Cell[] grid = new Cell[4];
+	private Cell[] grid = new Cell[4];
 
-	public Grid(Pane pane, Cell parent, int x, int y, int w, int h, int id) {
+	public Grid(Pane pane, Grid parent, int x, int y, int w, int h, int id){
 		super(pane, parent, x, y, w, h, id);
 		int ver = x + w/2;
 		int hor = y + h/2;
@@ -15,12 +15,19 @@ public class Grid extends Cell {
 		grid[3] = new Square(pane, this, ver+1, hor+1, x+w-1-ver, y+h-1-hor, 3);
 	}
 	
-	public void combine(){
-		remove();
-		parent = new Square(pane, parent, x, y, w, h, id);
+	void setCell(int id, Cell cell){
+		grid[id] = cell;
 	}
 	
-	public void remove(){
+	void combine(){
+		remove();
+		Square newSquare = new Square(pane, parent, x, y, w, h, id);
+		if(parent != null)
+			parent.setCell(id, newSquare);
+	}
+	
+	@Override
+	void remove(){
 		for(Cell c : grid){
 			c.remove();
 		}

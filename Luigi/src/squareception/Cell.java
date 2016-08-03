@@ -5,9 +5,9 @@ import javafx.scene.layout.Pane;
 public abstract class Cell {
 	int x, y, w, h, id;
 	Pane pane;
-	Cell parent;
+	Grid parent;
 
-	public Cell(Pane pane, Cell parent, int x, int y, int w, int h, int id) {
+	public Cell(Pane pane, Grid parent, int x, int y, int w, int h, int id) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -17,6 +17,5 @@ public abstract class Cell {
 		this.parent = parent;
 	}
 	
-	public void divide(){}
-	public abstract void remove();
+	abstract void remove();
 }
