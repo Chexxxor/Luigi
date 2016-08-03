@@ -2,11 +2,12 @@ package networking2;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class ObjectListener<Obj> extends Listener {
+public class ObjectListener<Obj extends Serializable> extends Listener {
 	ObjectInputStream in;
 	LinkedBlockingQueue<Obj> objects = new LinkedBlockingQueue<>();
 	ObjectSender<Packet> sender = null;
@@ -19,10 +20,6 @@ public class ObjectListener<Obj> extends Listener {
 	public ObjectListener(Socket s, ObjectSender<Packet> sender) throws IOException{
 		this(s);
 		this.sender = sender;
-	}
-	
-	public void kill(){
-		running = false;
 	}
 	
 	public Obj readNow() throws NoSuchElementException {
@@ -45,7 +42,7 @@ public class ObjectListener<Obj> extends Listener {
 				if(sender != null)
 					sender.post(new Packet(Packet.Command.BAD_CLASS));
 			} catch (IOException e) {
-				if(sender != null)
+				if(sender != null && running && !socket.isClosed())
 					sender.post(new Packet(Packet.Command.REPEAT));
 			}
 		}

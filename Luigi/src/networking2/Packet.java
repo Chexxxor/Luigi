@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Packet implements Serializable{
 	private static final long serialVersionUID = 1L;
-	enum Command{EXIT, START, ERROR, BAD_CLASS, REPEAT};
+	enum Command{EXIT, START, ERROR, BAD_CLASS, REPEAT, UNKNOWN, MESSAGE};
 
 	String message = null;
 	Command command;
